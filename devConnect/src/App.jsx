@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Feed from "./components/Feed";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
+import Connections from "./components/Connections";
 
 const App = () => {
   return (
@@ -15,12 +16,12 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Body />}>
-              <Route index element={<Feed />} />{" "}
-              {/* default page inside Body */}
+              <Route path="/" element={<Feed />} />{" "}
               <Route path="/profile" element={<Profile />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/connections" element={<Connections />} />
+              {/* <Route path="/requests" element={<Requests />} /> */}
             </Route>
-
-            <Route path="/login" element={<Login />} />
           </Routes>
         </BrowserRouter>
       </Provider>
