@@ -8,7 +8,7 @@ import Feed from "./components/Feed";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import Connections from "./components/Connections";
-import Requests from './components/Request'
+import Requests from "./components/Request";
 const App = () => {
   return (
     <>

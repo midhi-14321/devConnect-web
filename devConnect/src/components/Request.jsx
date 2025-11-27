@@ -1,12 +1,26 @@
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addRequests } from "../utils/requestSlice";
+import { addRequests, removeRequest } from "../utils/requestSlice";
 
 const Requests = () => {
   const dispatch = useDispatch();
   const requests = useSelector((store) => store.requests);
+//   const [showButtons, setShowButtons] = useState(true);
+
+  const reviewRequests = async (status, _id) => {
+    try {
+      const res = await axios.post(
+        BASE_URL + "/request/review/" + status + "/" + _id,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(removeRequest(_id));
+    } catch (err) {
+        //error handling
+    }
+  };
   const fetchRequest = async () => {
     try {
       const res = await axios.get(BASE_URL + "/user/requests", {
@@ -24,7 +38,8 @@ const Requests = () => {
 
   if (!requests) return;
 
-  if (requests.length === 0) return <h1>no requests found</h1>;
+  if (requests.length === 0)
+    return <h1 className="flex justify-center">no requests found</h1>;
 
   return (
     <div className=" text-center  my-10">
@@ -53,8 +68,18 @@ const Requests = () => {
               <p>{about}</p>
             </div>
             <div>
-              <button className="btn btn-active btn-success mx-2">Accept</button>
-              <button className="btn btn-active btn-error mx-2">Reject</button>
+              <button
+                className="btn btn-active btn-success mx-2"
+                onClick={() => reviewRequests("accepted", request._id)}
+              >
+                Accept
+              </button>
+              <button
+                className="btn btn-active btn-error mx-2"
+                onClick={() => reviewRequests("rejected", request._id)}
+              >
+                Reject
+              </button>
             </div>
           </div>
         );
