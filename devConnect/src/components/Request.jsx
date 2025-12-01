@@ -7,7 +7,7 @@ import { addRequests, removeRequest } from "../utils/requestSlice";
 const Requests = () => {
   const dispatch = useDispatch();
   const requests = useSelector((store) => store.requests);
-//   const [showButtons, setShowButtons] = useState(true);
+  //   const [showButtons, setShowButtons] = useState(true);
 
   const reviewRequests = async (status, _id) => {
     try {
@@ -18,7 +18,7 @@ const Requests = () => {
       );
       dispatch(removeRequest(_id));
     } catch (err) {
-        //error handling
+      //error handling
     }
   };
   const fetchRequest = async () => {
@@ -42,48 +42,61 @@ const Requests = () => {
     return <h1 className="flex justify-center">no requests found</h1>;
 
   return (
-    <div className=" text-center  my-10">
-      <h1 className="font-bold text-3xl">Requests</h1>
+    <div className="flex flex-col items-center my-10 px-4">
+      <h1 className="font-bold text-4xl mb-6 text-primary">Requests</h1>
 
-      {requests.map((request) => {
-        const { _id, firstName, lastName, age, gender, about, photoUrl } =
-          request.fromUserId;
-        return (
-          <div
-            key={_id}
-            className=" flex justify-center items-center m-4 p-4 rounded-lg bg-base-300 w-1/2 mx-auto"
-          >
-            <div>
-              <img
-                src={photoUrl}
-                alt="photo"
-                className="w-20 h-20 rounded-full"
-              />
+      <div className="w-full max-w-3xl space-y-6">
+        {requests.map((request) => {
+          const { _id, firstName, lastName, age, gender, about, photoUrl } =
+            request.fromUserId;
+
+          return (
+            <div
+              key={_id}
+              className="card bg-base-200 shadow-xl rounded-2xl border border-base-300 hover:shadow-2xl transition-all duration-300"
+            >
+              <div className="card-body flex flex-row items-center space-x-5">
+                {/* Image */}
+                <img
+                  src={photoUrl}
+                  alt="photo"
+                  className="w-24 h-24 rounded-full object-cover border-4 border-primary/40 shadow-md"
+                />
+
+                {/* User Info */}
+                <div className="flex-1 text-left">
+                  <h2 className="font-bold text-2xl text-primary">
+                    {firstName + " " + lastName}
+                  </h2>
+
+                  <p className="text-sm opacity-80">
+                    {age && gender ? `${age} • ${gender}` : ""}
+                  </p>
+
+                  <p className="mt-1 text-base">{about}</p>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col space-y-3">
+                  <button
+                    className="btn btn-success btn-sm rounded-xl shadow-md hover:scale-105 transition-all"
+                    onClick={() => reviewRequests("accepted", request._id)}
+                  >
+                    Accept
+                  </button>
+
+                  <button
+                    className="btn btn-error btn-sm rounded-xl shadow-md hover:scale-105 transition-all"
+                    onClick={() => reviewRequests("rejected", request._id)}
+                  >
+                    Reject
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="text-left mx-3">
-              <h2 className="font-bold text-2xl">
-                {firstName + " " + lastName}
-              </h2>
-              {age && gender && <p>{age + " " + gender}</p>}
-              <p>{about}</p>
-            </div>
-            <div>
-              <button
-                className="btn btn-active btn-success mx-2"
-                onClick={() => reviewRequests("accepted", request._id)}
-              >
-                Accept
-              </button>
-              <button
-                className="btn btn-active btn-error mx-2"
-                onClick={() => reviewRequests("rejected", request._id)}
-              >
-                Reject
-              </button>
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };

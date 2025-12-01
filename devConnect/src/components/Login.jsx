@@ -50,10 +50,10 @@ const Login = () => {
       setError(err.response?.data || "Something went wrong");
     }
   };
-
+ 
   return (
-    <>
-      <div className="flex justify-center my-10">
+    <div className="">
+      <div className="flex justify-center my-10 ">
         <div className="card bg-base-300 w-96 shadow-sm">
           <div className="card-body">
             <h2 className="card-title flex justify-center">
@@ -119,7 +119,8 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default Login;
+
